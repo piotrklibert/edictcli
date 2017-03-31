@@ -27,7 +27,7 @@ First and foremost, you need to download and install
 Unix-like system. It may be harder to setup on Windows (pre-Windows 10), but I'm
 not familiar with Windows development and can't help you, sorry.
 
-Then you need to install dependencies with `chiken-install`:
+Then you need to install dependencies with `chicken-install`:
 
     for pkg in http-client html-parser sxpath args clojurian utf8; do
         chicken-install $pkg
@@ -64,3 +64,9 @@ interpreter and compiler are quite fast and the number of packages (called eggs)
 is sufficient. I chose Chicken over Racket for this project specifically because
 of AOT compilation which cuts down the startup time: for short-lived processes
 it generally results in better user experience than JIT.
+
+## TODO
+
+* pronounciation playback code is currently broken
+* pronounciation playback should be configurable, as it currently hardcodes
+  mpg123 invocation

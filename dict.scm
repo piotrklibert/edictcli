@@ -1,3 +1,8 @@
+#! /bin/sh
+#| -*- scheme -*-
+exec csi -s $0 "$@"
+|#
+
 (require-extension utf8)                ; make string-length work with codepoints
 
 (use srfi-1)
@@ -110,9 +115,15 @@
          "Display some contextual help.."
          (set! arg (or arg #t)))))
 
+
 (define (display-help-and-exit)
-  (displayln "Help string...")
+  (displayln
+   (string-append
+    "Usage: " (program-name) " [-s | --sound] <word>\n\n"
+    "    Fetch and display Polish to English (or vice versa)"
+    " translation for word."))
   (exit))
+
 
 (define (get-args)
   (let*
@@ -126,7 +137,7 @@
         (when (>= (length arguments) 2) (*lang* (string-upcase (cadr arguments))))
         arguments)
       ;; not args?:
-      (exit))))
+      (display-help-and-exit))))
 
 
 ;; Entry point
