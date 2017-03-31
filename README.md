@@ -35,7 +35,7 @@ Then you need to install dependencies with `chicken-install`:
 
 Then you can run the program using Chicken interpreter like this:
 
-    csi -s dict.scm word
+    csi -w -s dict.scm word
 
 or you can compile the program to a self-contained, native binary:
 

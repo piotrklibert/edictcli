@@ -1,6 +1,6 @@
 #! /bin/sh
 #| -*- scheme -*-
-exec csi -s $0 "$@"
+exec csi -w -s $0 "$@"
 |#
 
 (require-extension utf8)                ; make string-length work with codepoints
@@ -49,7 +49,7 @@ exec csi -s $0 "$@"
         (car funcs)
         (cdr funcs)))
 
-(define (max lst key-fn)
+(define (list-max lst key-fn)
   (fold (lambda (x sofar)
           (let ((x (key-fn x)))
             (if (> x sofar) x sofar)))
@@ -70,15 +70,13 @@ exec csi -s $0 "$@"
     (alist-ref key alist equal? (or default #f))))
 
 
-(define enc uri-encode-string)
-
 (define (node->text el)
   (string-join ((sxpath '(// *text*)) el) ""))
 
 
-;;; dict page handling and results display functions
+;; dict page handling and results display functions
 (define (fetch-dict-page word)
-  (let ((url (format dict-page-url (enc word) (*lang*))))
+  (let ((url (format dict-page-url (uri-encode-string word) (*lang*))))
     (with-input-from-request url #f read-string)))
 
 (define (get-pad-len str)
@@ -91,7 +89,7 @@ exec csi -s $0 "$@"
 
 ;; pronounciation page handling and results playing functions
 (define (fetch-pronounciation-page word)
-  (let ((url (format "~a~a" pronounciation-url (enc word))))
+  (let ((url (format "~a~a" pronounciation-url (uri-encode-string word))))
     (with-input-from-request url #f read-string)))
 
 (define (play-url url)
@@ -146,7 +144,7 @@ exec csi -s $0 "$@"
      (tds ((sxpath "//td[@class=\"resWordCol\"]") xml))
      (rows (partition tds 2))
      (cols (apply zip rows)))
-  (*col-width* (max (first cols) (compose string-length
+  (*col-width* (list-max (first cols) (compose string-length
                                           node->text)))
   (let loop ((tds rows))
     (unless (null? tds)
