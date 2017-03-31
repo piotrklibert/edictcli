@@ -1,9 +1,3 @@
-;; To install all the needed deps:
-;;
-;; chicken-install http-client && chicken-install html-parser && \
-;; chicken-install sxpath && chicken-install args && chicken-install clojurian && \
-;; chicken-install utf8
-
 (require-extension utf8)                ; make string-length work with codepoints
 
 (use srfi-1)
